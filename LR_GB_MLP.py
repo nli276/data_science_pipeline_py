@@ -7,19 +7,7 @@
 # - Simply run all cells to refresh.
 # - This notebook will use internet to download dataset and will write files to local disk.
 # - Assuming Anaconda python 3 with sklearn, tensorflow, keras, xgboost installed.
-# - I worked on this notebook on Saturday afternoon, Saturday evening and Sunday afternoon.
-# 
-# **Key learnings**
-# - Multiple methods are giving similar poor signal (AUC~0.6). Perhaps need to revisit feature engineering in future iterations. Fine tuning of the model training parameters is probably not yet necessary till later stage. 
-# - The poor signal is probably either due to weak signal from data (some things are just hard to predict), or feature engineered inproperly (could try more granular binning at the price of more parameters).
-# - I think none of the pilot models is good enough for deployment in real world at the current stage; not sure about loan industry risk model benchmark though.
-# - If I have to pick, it would be GB. GB and LR are easier to explain than MLP, and easier to convert to rule-based policy design for lenders (unless the lender only consumes risk score - in which case intelligibility of model doesn't matter). 
-# - Between GB and LR, in this particular use case GB is more convenient with feature importance function. So my preferrance is GB > LR(with CV) > MLP for this dataset. 
-# - This dataset is too small to benefit from deep learning methods.
-# - Out-of-sample log loss (~3.8) and weighted avg f1 score (~0.85) are very similar between GB and LR.
-# - CV is not always necessary if holdout data (X_test, y_test) is giving similar performance as in-sample. This is actually the case for GB. But it is helpful for LR regularization.
-# - Using GB feature importance function, the top 3 features learned are: Annual income of the loan applicant - log scale, Loan applicant’s percentage utilization of their revolving credit facility, and Total number of accounts for the loan applicant. 
-# - This notebook is written in more of a "data science" style than software engineering, which would be more modular. Once data processing and experimenting with pilots are done, it would be relatively straightforward to format the pilot models to pipeline, especially with off-the-shelf tools like sklearn or keras.
+# - This notebook is written in more of a "data science" style than software engineering, which would be more modular.
 
 # # load tools
 
@@ -93,7 +81,6 @@ DOWNLOAD_ROOT = "https://s3.amazonaws.com/"
 LOCAL_PATH = os.path.join("datasets")
 FILENAME = "DR_Demo_Lending_Club.csv"
 DOWNLOAD_URL = DOWNLOAD_ROOT + FILENAME
-#since this is data downloaded from public website, I am not taking any precautions as I normally would for ePHI data.
 
 
 # In[9]:
@@ -1460,7 +1447,7 @@ from sklearn.metrics import roc_auc_score,log_loss
 # In[188]:
 
 
-logloss = log_loss(y_test, classifier.predict(X_test))
+logloss = log_loss(y_test, classifier.predict(X_test))#wrong?
 print('log loss: ',logloss)
 logit_roc_auc = roc_auc_score(y_test, classifier.predict(X_test))
 fpr, tpr, thresholds = roc_curve(y_test, classifier.predict_proba(X_test)[:,1])
