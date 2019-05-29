@@ -3,11 +3,8 @@
 
 # # This script is saved from jupyter notebook.
 
-# **To get results**
-# - Simply run all cells to refresh.
-# - This notebook will use internet to download dataset and will write files to local disk.
 # - Assuming Anaconda python 3 with sklearn, tensorflow, keras, xgboost installed.
-# - This notebook is written in more of a "data science" style than software engineering, which would be more modular.
+# - This notebook is written in more of a "data science" style...
 
 # # load tools
 
